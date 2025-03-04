@@ -24,173 +24,26 @@
     </head>
 
     <body>
-        <pre><code>
-MODEL
-namespace HandsOn.Models
-{
-    public class tblemp
-    {
-        [Required]
-        [Key]
-        public int id { get; set; }
-        public string name { get; set; }
-        public string contact { get; set; }
-        public string email { get; set; }
-        public int age { get; set; }
-    }
-}
-        </br>
-        </br>
-        </br>
-        </br>
-CONTROLLER
-public class EmpController : Controller
-{
-    SqlConnection con = new SqlConnection("");
-    SqlCommand cmd = new SqlCommand();
-    DataSet ds = new DataSet();
-    DataTable dt = new DataTable();
-    SqlDataAdapter adp = new SqlDataAdapter();
 
-    public IActionResult Index()
-    {
-        con.Open();
-        adp = new SqlDataAdapter("select * from tblemp;", con);
-        List<tblemp> e = new List<tblemp>();
-        adp.Fill(ds);
-        dt = ds.Tables[0];
-        foreach (DataRow dr in dt.Rows)
-        {
-            e.Add(new tblemp { 
-                id = Convert.ToInt32(dr["id"].ToString()),
-                name = dr["name"].ToString(),
-                contact = dr["contact"].ToString(),
-                email = dr["email"].ToString(),
-                age = Convert.ToInt32(dr["age"].ToString()),//hahm
+        <h2>Code Display Example</h2>
+        MODEL
+        <code id="model"></code>
 
-            });
-        }
-
-        return View(e);
-    }
-    [HttpGet]
-    public IActionResult Insert()
-    {
-        return View();
-    }
-    [HttpPost]
-    public IActionResult Insert(tblemp e)
-    {
-        con.Open();
-        cmd = new SqlCommand("insert into tblemp values(" + e.id + ",'" + e.name + "','" + e.contact + "','" + e.email + "'," + e.age + ");", con);
-        cmd.ExecuteNonQuery();
-        con.Close();
-        return RedirectToAction("Index");
-    }
-    
-    [HttpGet]
-    public IActionResult Edit(int id)
-    {
-        tblemp emp = new tblemp();
-
-
-            con.Open();
-            string query = "SELECT * FROM tblemp WHERE id = @id";
-            using (SqlCommand cmd = new SqlCommand(query, con))
-            {
-                cmd.Parameters.AddWithValue("@id", id);
-                using (SqlDataReader reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        emp.id = reader.GetInt32(0);
-                        emp.name = reader.GetString(1);
-                    emp.contact = reader.GetString(2);
-                    emp.email = reader.GetString(3);
-                        emp.age = reader.GetInt32(4);
-                    }
-                }
-        }
-
-        return View(emp);
-    }
-    [HttpPost]
-    public IActionResult Edit(tblemp emp)
-    {
-        con.Open();
-        cmd = new SqlCommand("UPDATE tblemp SET name = @name, email = @email, contact = @contact, age = @age WHERE id = @id", con);
-        cmd.Parameters.Add("@id", SqlDbType.Int).Value = emp.id;
-        cmd.Parameters.Add("@name", SqlDbType.VarChar, 50).Value = emp.name;
-        cmd.Parameters.Add("@email", SqlDbType.VarChar, 50).Value = emp.email;
-        cmd.Parameters.Add("@contact", SqlDbType.VarChar, 50).Value = emp.contact;
-        cmd.Parameters.Add("@age", SqlDbType.Int).Value = emp.age;
-        cmd.ExecuteNonQuery();
-
-        con.Close();
-        return RedirectToAction("Index");
-    }
-
-
-    public IActionResult Delete(int id)
-    {
-
-        con.Open();
-        cmd = new SqlCommand("delete from tblemp where id="+id+";", con);
-        int res=cmd.ExecuteNonQuery();
-        if(res>0)
-        {
-            return RedirectToAction("Index");
-        }
-        return RedirectToAction("Index");
-    }
-}
-</br>
-</br>
-</br>
-</br>
-INDEX.CSHTML
-    </code></pre>
-        <code id="output"></code>
     </body>
 
 </html>
 <script>
-    let myString = `@model List<tblemp>
-    <html xmlns="http://www.w3.org/1999/xhtml">
-    <head><title>emp display</title></head>
-    <body>
-        <div class="d-flex justify-content-between m-3">
-        <div class="fs-1">Employees</div>
-        <div><a class="btn btn-primary" asp-action="Insert" asp-controller="Emp"> + Add New Employee</a></div>
-        </div>
-    <table class="table table-bordered table-striped text-center">
-            <thead>
-            <th>ID</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Contact</th>
-            <th>Age</th>
-            <th>Edit</th>
-            <th>Delete</th>
-            </thead>
-            <tbody>
-                @foreach(var e in Model)
+    let model = `namespace HandsOn.Models
+            {
+                public class tblemp
                 {
-                    <tr>
-                    <td>@e.id</td>
-                    <td>@e.name</td>
-                    <td>@e.email</td>
-                    <td>@e.contact</td>
-                    <td>@e.age</td>
-                    <td><a asp-action="Edit" asp-controller="Emp" asp-route-id="@e.id" class="btn btn-warning">Edit</a></td>
-                    <td><a asp-action="Delete" asp-controller="Emp" asp-route-id="@e.id" class="btn btn-danger" onclick="return confirm('do you want to delete this record?');">Delete</a></td>
-                    </tr>
+                    [Required]
+                    [Key]
+                    public int id { get; set; }
+                    public string name { get; set; }
+                    public string contact { get; set; }
+                    public string email { get; set; }
+                    public int age { get; set; }
                 }
-            </tbody>
-        </table>
-    </body>
-</html>`;
-
-    document.getElementById("message").innerHTML = myString;
-
+            }`;
 </script>
