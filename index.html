@@ -27,12 +27,15 @@
 
         <h2>Code Display Example</h2>
         MODEL</br>
-        <code id="model"></code>
+        <code id="model"></code></br>
         Controller</br>
-        <code id="controller"></code>
+        <code id="controller"></code></br>
         Index.cshtml</br>
-        <code id="index.cshtml"></code>
-
+        <code id="index.cshtml"></code></br>
+        Insert.cshtml</br>
+        <code id="insert"></code></br>
+        Edit</br>
+        code id="edit"></code></br>
     </body>
 
 </html>
@@ -188,4 +191,94 @@
     </body>
 </html>`;
     document.getElementById("index.cshtml").innerText = indexcshtml;
+    let insert = `@model tblemp
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head><title></title></head>
+    <body>
+
+        <form method="post">
+        <table class="table table-bordered table-striped text-center">
+            <tr>
+                <td>ID</td>
+                <td>
+                    <input type="number" name="id" id="id" />
+                </td>
+            <tr />
+            <tr>
+                <td>Name</td>
+                <td>
+                    <input type="text" name="name" id="name" />
+                </td>
+            <tr />
+            <tr>
+                <td>Email</td>
+                <td>
+                    <input type="email" name="email" id="email" />
+                </td>
+            <tr />
+            <tr>
+                <td>Contact</td>
+                <td>
+                    <input type="tel" name="contact" id="contact" />
+                </td>
+            <tr />
+            <tr>
+                <td>Age</td>
+                <td>
+                    <input type="number" name="age" id="age" />
+                </td>
+            <tr />
+            <tr>
+                <td colspan="2"><button type="submit" asp-action="Insert" asp-controller="Emp" class="btn btn-danger">Insert Employee</button></td>
+            </tr>
+            </table>
+        </form>
+    </body>
+</html>`;
+    document.getElementById("insert").innerText = insert;
+    let edit = `@model tblemp
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head><title></title></head>
+    <body>
+
+        <form method="post">
+        <table class="table table-bordered table-striped text-center">
+            <tr>
+                <td>ID</td>
+                <td>
+                    <input type="number" name="id" id="id" />
+                </td>
+            <tr />
+            <tr>
+                <td>Name</td>
+                <td>
+                    <input type="text" name="name" id="name" />
+                </td>
+            <tr />
+            <tr>
+                <td>Email</td>
+                <td>
+                    <input type="email" name="email" id="email" />
+                </td>
+            <tr />
+            <tr>
+                <td>Contact</td>
+                <td>
+                    <input type="tel" name="contact" id="contact" />
+                </td>
+            <tr />
+            <tr>
+                <td>Age</td>
+                <td>
+                    <input type="number" name="age" id="age" />
+                </td>
+            <tr />
+            <tr>
+                <td colspan="2"><button type="submit" asp-action="Insert" asp-controller="Emp" class="btn btn-danger">Insert Employee</button></td>
+            </tr>
+            </table>
+        </form>
+    </body>
+</html>`;
+    document.getElementById("edit").innerText = edit;
 </script>
