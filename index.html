@@ -24,11 +24,21 @@
     </head>
 
     <body>
-
-        <h2>Code Display Example</h2>
-
         <pre><code>
-            hello
+            <!-- MODEL -->
+            namespace HandsOn.Models
+{
+    public class tblemp
+    {
+        [Required]
+        [Key]
+        public int id { get; set; }
+        public string name { get; set; }
+        public string contact { get; set; }
+        public string email { get; set; }
+        public int age { get; set; }
+    }
+}
     </code></pre>
 
     </body>
