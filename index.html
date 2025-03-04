@@ -148,8 +148,15 @@ public class EmpController : Controller
 </br>
 </br>
 </br>
-INDEX.CSHTML"
-@model List<tblemp>
+INDEX.CSHTML
+<code id="output"></code>
+    </code></pre>
+
+    </body>
+
+</html>
+<script>
+    let myString = `@model List<tblemp>
     <html xmlns="http://www.w3.org/1999/xhtml">
     <head><title>emp display</title></head>
     <body>
@@ -183,58 +190,8 @@ INDEX.CSHTML"
             </tbody>
         </table>
     </body>
-</html>
-"
+</html>`;
 
-insert.cshtml
-"
-@model tblemp
-<html xmlns="http://www.w3.org/1999/xhtml">
-    <head><title></title></head>
-    <body>
+    document.getElementById("message").innerHTML = myString;
 
-        <form method="post">
-        <table class="table table-bordered table-striped text-center">
-            <tr>
-                <td>ID</td>
-                <td>
-                    <input type="number" name="id" id="id" />
-                </td>
-            <tr />
-            <tr>
-                <td>Name</td>
-                <td>
-                    <input type="text" name="name" id="name" />
-                </td>
-            <tr />
-            <tr>
-                <td>Email</td>
-                <td>
-                    <input type="email" name="email" id="email" />
-                </td>
-            <tr />
-            <tr>
-                <td>Contact</td>
-                <td>
-                    <input type="tel" name="contact" id="contact" />
-                </td>
-            <tr />
-            <tr>
-                <td>Age</td>
-                <td>
-                    <input type="number" name="age" id="age" />
-                </td>
-            <tr />
-            <tr>
-                <td colspan="2"><button type="submit" asp-action="Insert" asp-controller="Emp" class="btn btn-danger">Insert Employee</button></td>
-            </tr>
-            </table>
-        </form>
-    </body>
-</html>
-"
-    </code></pre>
-
-    </body>
-
-</html>
+</script>
