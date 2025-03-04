@@ -25,19 +25,124 @@
 
     <body>
         <pre><code>
-            <!-- MODEL -->
+            MODEL
             namespace HandsOn.Models
+            {
+                public class tblemp
+                {
+                    [Required]
+                    [Key]
+                    public int id { get; set; }
+                    public string name { get; set; }
+                    public string contact { get; set; }
+                    public string email { get; set; }
+                    public int age { get; set; }
+                }
+            }
+        </br>
+        </br>
+        </br>
+        </br>
+CONTROLLER
+public class EmpController : Controller
 {
-    public class tblemp
+    SqlConnection con = new SqlConnection("");
+    SqlCommand cmd = new SqlCommand();
+    DataSet ds = new DataSet();
+    DataTable dt = new DataTable();
+    SqlDataAdapter adp = new SqlDataAdapter();
+
+    public IActionResult Index()
     {
-        [Required]
-        [Key]
-        public int id { get; set; }
-        public string name { get; set; }
-        public string contact { get; set; }
-        public string email { get; set; }
-        public int age { get; set; }
-    }
+        con.Open();
+        adp = new SqlDataAdapter("select * from tblemp;", con);
+        List<tblemp> e = new List<tblemp>();
+        adp.Fill(ds);
+        dt = ds.Tables[0];
+        foreach (DataRow dr in dt.Rows)
+        {
+            e.Add(new tblemp { 
+                id = Convert.ToInt32(dr["id"].ToString()),
+                name = dr["name"].ToString(),
+                contact = dr["contact"].ToString(),
+                email = dr["email"].ToString(),
+                age = Convert.ToInt32(dr["age"].ToString()),//hahm
+
+            });
+        }
+
+        return View(e);
+    }
+    [HttpGet]
+    public IActionResult Insert()
+    {
+        return View();
+    }
+    [HttpPost]
+    public IActionResult Insert(tblemp e)
+    {
+        con.Open();
+        cmd = new SqlCommand("insert into tblemp values(" + e.id + ",'" + e.name + "','" + e.contact + "','" + e.email + "'," + e.age + ");", con);
+        cmd.ExecuteNonQuery();
+        con.Close();
+        return RedirectToAction("Index");
+    }
+    
+    [HttpGet]
+    public IActionResult Edit(int id)
+    {
+        tblemp emp = new tblemp();
+
+
+            con.Open();
+            string query = "SELECT * FROM tblemp WHERE id = @id";
+            using (SqlCommand cmd = new SqlCommand(query, con))
+            {
+                cmd.Parameters.AddWithValue("@id", id);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        emp.id = reader.GetInt32(0);
+                        emp.name = reader.GetString(1);
+                    emp.contact = reader.GetString(2);
+                    emp.email = reader.GetString(3);
+                        emp.age = reader.GetInt32(4);
+                    }
+                }
+        }
+
+        return View(emp);
+    }
+    [HttpPost]
+    public IActionResult Edit(tblemp emp)
+    {
+        con.Open();
+        cmd = new SqlCommand("UPDATE tblemp SET name = @name, email = @email, contact = @contact, age = @age WHERE id = @id", con);
+        cmd.Parameters.Add("@id", SqlDbType.Int).Value = emp.id;
+        cmd.Parameters.Add("@name", SqlDbType.VarChar, 50).Value = emp.name;
+        cmd.Parameters.Add("@email", SqlDbType.VarChar, 50).Value = emp.email;
+        cmd.Parameters.Add("@contact", SqlDbType.VarChar, 50).Value = emp.contact;
+        cmd.Parameters.Add("@age", SqlDbType.Int).Value = emp.age;
+        cmd.ExecuteNonQuery();
+
+        con.Close();
+        return RedirectToAction("Index");
+    }
+
+
+    public IActionResult Delete(int id)
+    {
+
+        con.Open();
+        cmd = new SqlCommand("delete from tblemp where id="+id+";", con);
+        int res=cmd.ExecuteNonQuery();
+        if(res>0)
+        {
+            return RedirectToAction("Index");
+        }
+        return RedirectToAction("Index");
+    }
 }
     </code></pre>
 
